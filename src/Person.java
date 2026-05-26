@@ -20,15 +20,10 @@ public class Person implements Comparable<Person> {
 
     @Override
     public int compareTo(Person that) {
-        // Сначала сравниваем рост по убыванию (поэтому that стоит перед this)
         int heightCompare = Integer.compare(that.height, this.height);
-        
-        // Если рост разный, возвращаем результат сравнения роста
         if (heightCompare != 0) {
             return heightCompare;
         }
-        
-        // Если рост одинаковый, сравниваем вес по убыванию
         return Integer.compare(that.weight, this.weight);
     }
 
