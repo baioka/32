@@ -15,13 +15,21 @@ public class Person implements Comparable<Person> {
 
     @Override
     public String toString() {
-        return "("+firstname + "," + lastname+ "," + weight + "," + height+")";
+        return "(" + firstname + "," + lastname + "," + weight + "," + height + ")";
     }
 
     @Override
     public int compareTo(Person that) {
-        // implement this according to your variant
-        return 0;
+        // Сначала сравниваем рост по убыванию (поэтому that стоит перед this)
+        int heightCompare = Integer.compare(that.height, this.height);
+        
+        // Если рост разный, возвращаем результат сравнения роста
+        if (heightCompare != 0) {
+            return heightCompare;
+        }
+        
+        // Если рост одинаковый, сравниваем вес по убыванию
+        return Integer.compare(that.weight, this.weight);
     }
 
     static void main() {
