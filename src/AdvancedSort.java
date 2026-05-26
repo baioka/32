@@ -1,20 +1,92 @@
 import java.util.Comparator;
+import java.util.Arrays;
 
 public class AdvancedSort {
-    // bubble sort variant
-    public static <E extends Comparable<E>> void sort(E[] list){
-        // implement it according to your variant
+
+    // --- ВЕРСИЯ С COMPARABLE (Natural Order) ---
+    public static <E extends Comparable<E>> void sort(E[] list) {
+        if (list == null || list.length <= 1) {
+            return;
+        }
+        mergeSort(list, 0, list.length - 1);
     }
 
+    private static <E extends Comparable<E>> void mergeSort(E[] list, int left, int right) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+            mergeSort(list, left, mid);
+            mergeSort(list, mid + 1, right);
+            merge(list, left, mid, right);
+        }
+    }
+
+    private static <E extends Comparable<E>> void merge(E[] list, int left, int mid, int right) {
+        E[] leftArray = Arrays.copyOfRange(list, left, mid + 1);
+        E[] rightArray = Arrays.copyOfRange(list, mid + 1, right + 1);
+
+        int i = 0, j = 0, k = left;
+
+        while (i < leftArray.length && j < rightArray.length) {
+            if (leftArray[i].compareTo(rightArray[j]) <= 0) {
+                list[k++] = leftArray[i++];
+            } else {
+                list[k++] = rightArray[j++];
+            }
+        }
+
+        while (i < leftArray.length) {
+            list[k++] = leftArray[i++];
+        }
+        while (j < rightArray.length) {
+            list[k++] = rightArray[j++];
+        }
+    }
+
+
+    // --- ВЕРСИЯ С COMPARATOR (Custom Order) ---
     public static <E> void sort(E[] list, Comparator<? super E> comparator) {
-        // implement it according to your variant
+        if (list == null || list.length <= 1) {
+            return;
+        }
+        mergeSort(list, 0, list.length - 1, comparator);
+    }
+
+    private static <E> void mergeSort(E[] list, int left, int right, Comparator<? super E> comparator) {
+        if (left < right) {
+            int mid = left + (right - left) / 2;
+            mergeSort(list, left, mid, comparator);
+            mergeSort(list, mid + 1, right, comparator);
+            merge(list, left, mid, right, comparator);
+        }
+    }
+
+    private static <E> void merge(E[] list, int left, int mid, int right, Comparator<? super E> comparator) {
+        E[] leftArray = Arrays.copyOfRange(list, left, mid + 1);
+        E[] rightArray = Arrays.copyOfRange(list, mid + 1, right + 1);
+
+        int i = 0, j = 0, k = left;
+
+        while (i < leftArray.length && j < rightArray.length) {
+            if (comparator.compare(leftArray[i], rightArray[j]) <= 0) {
+                list[k++] = leftArray[i++];
+            } else {
+                list[k++] = rightArray[j++];
+            }
+        }
+
+        while (i < leftArray.length) {
+            list[k++] = leftArray[i++];
+        }
+        while (j < rightArray.length) {
+            list[k++] = rightArray[j++];
+        }
     }
 
     // Example for Comparable usage
-    public static <E extends Comparable<E>> E findMin(E[] list){
+    public static <E extends Comparable<E>> E findMin(E[] list) {
         int minIndex = 0;
         for (int i = 1; i < list.length; i++) {
-            if  (list[i].compareTo(list[minIndex]) < 0) {
+            if (list[i].compareTo(list[minIndex]) < 0) {
                 minIndex = i;
             }
         }
@@ -25,7 +97,7 @@ public class AdvancedSort {
     public static <E> E findMin(E[] list, Comparator<? super E> comparator) {
         int minIndex = 0;
         for (int i = 1; i < list.length; i++) {
-            if  (comparator.compare(list[i],list[minIndex]) < 0) {
+            if (comparator.compare(list[i], list[minIndex]) < 0) {
                 minIndex = i;
             }
         }
@@ -33,13 +105,8 @@ public class AdvancedSort {
     }
 
     static void main() {
-        String [] names = {"Bob", "John", "Alice"};
-        
-        //Comparable used
-        System.out.println(findMin(names)); // Alice (smallest by alphabet, natural)
-        
-        // Comparator used
-        System.out.println(findMin(names, new StringComparator())); // Bob (smallest by length, custom)
+        String[] names = {"Bob", "John", "Alice"};
+        System.out.println(findMin(names)); // Alice
+        System.out.println(findMin(names, new StringComparator())); // Bob
     }
 }
-
