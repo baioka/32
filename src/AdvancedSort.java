@@ -3,7 +3,6 @@ import java.util.Arrays;
 
 public class AdvancedSort {
 
-    // --- ВЕРСИЯ С COMPARABLE (Natural Order) ---
     public static <E extends Comparable<E>> void sort(E[] list) {
         if (list == null || list.length <= 1) {
             return;
@@ -42,8 +41,6 @@ public class AdvancedSort {
         }
     }
 
-
-    // --- ВЕРСИЯ С COMPARATOR (Custom Order) ---
     public static <E> void sort(E[] list, Comparator<? super E> comparator) {
         if (list == null || list.length <= 1) {
             return;
@@ -82,7 +79,6 @@ public class AdvancedSort {
         }
     }
 
-    // Example for Comparable usage
     public static <E extends Comparable<E>> E findMin(E[] list) {
         int minIndex = 0;
         for (int i = 1; i < list.length; i++) {
@@ -93,7 +89,6 @@ public class AdvancedSort {
         return list[minIndex];
     }
 
-    // Example for Comparator usage
     public static <E> E findMin(E[] list, Comparator<? super E> comparator) {
         int minIndex = 0;
         for (int i = 1; i < list.length; i++) {
@@ -106,7 +101,7 @@ public class AdvancedSort {
 
     static void main() {
         String[] names = {"Bob", "John", "Alice"};
-        System.out.println(findMin(names)); // Alice
-        System.out.println(findMin(names, new StringComparator())); // Bob
+        System.out.println(findMin(names)); 
+        System.out.println(findMin(names, new StringComparator())); 
     }
 }
